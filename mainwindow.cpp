@@ -6,6 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->tableWidgetBooking->setColumnCount(3);
+    ui->tableWidgetBooking->setColumnWidth(0, 250);
+    ui->tableWidgetBooking->setColumnWidth(1, 150);
+    ui->tableWidgetBooking->setColumnWidth(2, 100);
 }
 
 MainWindow::~MainWindow()
@@ -13,12 +18,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_buttonBox_accepted()
+void MainWindow::on_addList_clicked()
 {
-    ui->lblShowBtnText->setText("OK!");
+    //Get a new row
+    int insertRow = ui->tableWidgetBooking->rowCount();
+    ui->tableWidgetBooking->insertRow(insertRow);
+    //insert description, price and date into the table
+    ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
+    ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
+//    ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->dateEdit->date()));
 }
 
-void MainWindow::on_buttonBox_rejected()
-{
-    ui->lblShowBtnText->setText("CANCEL");
-}

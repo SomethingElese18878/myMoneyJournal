@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QModelIndex>
 
 namespace Ui {
 class MainWindow;
@@ -16,9 +17,7 @@ public:
     ~MainWindow();
     
 private slots:
-    void on_buttonBox_accepted();
-
-    void on_buttonBox_rejected();
+    void on_addList_clicked();
 
 private:
     Ui::MainWindow *ui;
