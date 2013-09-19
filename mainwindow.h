@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QModelIndex>
+#include <QStringList>
 
 namespace Ui {
 class MainWindow;
