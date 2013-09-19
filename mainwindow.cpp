@@ -12,3 +12,13 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_buttonBox_accepted()
+{
+    ui->lblShowBtnText->setText("OK!");
+}
+
+void MainWindow::on_buttonBox_rejected()
+{
+    ui->lblShowBtnText->setText("CANCEL");
+}
