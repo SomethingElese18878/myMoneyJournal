@@ -35,6 +35,6 @@ void MainWindow::on_addList_clicked()
     //insert description, price and date into the table
     ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
     ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
-//    ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->dateEdit->date()));    //FIXME: How to handle date? Convert to string?
+    ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
 }
 

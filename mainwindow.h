@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStringList>
+#include <iostream>>
 
 namespace Ui {
 class MainWindow;
