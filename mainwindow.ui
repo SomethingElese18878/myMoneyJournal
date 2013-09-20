@@ -23,7 +23,11 @@
       <item>
        <layout class="QHBoxLayout" name="hLay_addBar">
         <item>
-         <widget class="QDateEdit" name="dateEdit"/>
+         <widget class="QDateEdit" name="dateEdit">
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="lineEditDescription">
@@ -38,7 +42,7 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item alignment="Qt::AlignRight">
          <widget class="QLineEdit" name="lineEditPrice">
           <property name="text">
            <string>0,00 €</string>
