@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    MainWindow::showMaximized();
+
+
     ui->tableWidgetBooking->setColumnCount(3);
     ui->tableWidgetBooking->setColumnWidth(0, 250);
     ui->tableWidgetBooking->setColumnWidth(1, 200);
