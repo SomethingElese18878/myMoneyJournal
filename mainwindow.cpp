@@ -12,10 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //setColumn, it's width and how they named
     ui->tableWidgetBooking->setColumnCount(4);
-    ui->tableWidgetBooking->setColumnWidth(0, 250);
-    ui->tableWidgetBooking->setColumnWidth(1, 200);
-    ui->tableWidgetBooking->setColumnWidth(2, 100);
-    ui->tableWidgetBooking->setColumnWidth(2, 100);
+    ui->tableWidgetBooking->setColumnWidth(0, 250); //Description
+    ui->tableWidgetBooking->setColumnWidth(1, 100); //Price
+    ui->tableWidgetBooking->setColumnWidth(2, 100); //Date
+    ui->tableWidgetBooking->setColumnWidth(2, 100); //Total
     QStringList columnText;
     columnText << "Description" << "Price" << "Date" << "Total";
     ui->tableWidgetBooking->setHorizontalHeaderLabels(columnText);
