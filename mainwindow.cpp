@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //addBar
+    ui->lineEditDescription->setFocus();
+
     //set dateEdit to currentDate
     ui->dateEdit->setDate(QDate::currentDate());
 
@@ -19,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList columnText;
     columnText << "Description" << "Price" << "Date" << "Total";
     ui->tableWidgetBooking->setHorizontalHeaderLabels(columnText);
+
+    //sidebar
+    ui->rbtn_allAccounts->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -38,3 +44,23 @@ void MainWindow::on_addList_clicked()
     ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
 }
 
+
+void MainWindow::on_le_accountName_returnPressed()
+{
+    QString new_account_name = ui->le_accountName->text();
+
+    QRadioButton *newUser = new QRadioButton(this);
+    newUser->setText(new_account_name);
+    newUser->show();
+    newUser->setChecked(true);
+}
+
+void MainWindow::on_lineEditDescription_returnPressed()
+{
+    this->on_addList_clicked();
+}
+
+void MainWindow::on_lineEditPrice_returnPressed()
+{
+    this->on_addList_clicked();
+}
