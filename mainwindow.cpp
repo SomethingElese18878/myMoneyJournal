@@ -1,13 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "account.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     //own logic
-    Account *allAccount = new Account();
+    this->allAccount = new Account();
     allAccount->setMoney(12.34);
 
     ui->setupUi(this);
@@ -37,7 +37,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_addList_clicked()
+void MainWindow::add2List()
 {
     //Get a new row
     int insertRow = ui->tableWidgetBooking->rowCount();
@@ -47,6 +47,15 @@ void MainWindow::on_addList_clicked()
     ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
     ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
     ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
+    //Total calculation
+    QString *qstr_allAccount = new QString(ui->lineEditPrice->text());
+
+    this->allAccount->setMoney(qstr_allAccount->toFloat());
+
+    //QString *bla = (QString) this->allAccount->getMoney();
+    bool *boolean = new bool(true);
+
+    ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_allAccount->toFloat(boolean) ));
 }
 
 
@@ -62,10 +71,10 @@ void MainWindow::on_le_accountName_returnPressed()
 
 void MainWindow::on_lineEditDescription_returnPressed()
 {
-    this->on_addList_clicked();
+    this->add2List();
 }
 
 void MainWindow::on_lineEditPrice_returnPressed()
 {
-    this->on_addList_clicked();
+    this->add2List();
 }

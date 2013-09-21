@@ -6,5 +6,6 @@ Account::Account()
 }
 
 void Account::setMoney(float money){
-    this->money = money;
+    this->money += money;
+    std::cout << "money was set to: " << this->money << std::endl;
 }
