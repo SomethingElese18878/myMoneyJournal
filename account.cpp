@@ -5,6 +5,6 @@ Account::Account()
     this->money = 0;
 }
 
-Account::setMoney(float money){
+void Account::setMoney(float money){
     this->money = money;
 }

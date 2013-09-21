@@ -5,7 +5,7 @@ class Account
 {
 public:
     Account();
-    void setMoney();
+    void setMoney(float money);
     inline float getMoney(){ return money; };
 private:
     float money;

@@ -22,8 +22,15 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetMaximumSize</enum>
         </property>
-        <item>
-         <widget class="QLineEdit" name="le_accountName"/>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item alignment="Qt::AlignLeft">
+         <widget class="QLineEdit" name="le_accountName">
+          <property name="placeholderText">
+           <string>new account</string>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QGridLayout" name="gLay_userSwitch">
@@ -38,20 +45,6 @@
            <widget class="QLabel" name="lbl_allAccounts">
             <property name="text">
              <string>0,00 €</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QRadioButton" name="radioButton">
-            <property name="text">
-             <string>RadioButton</string>
             </property>
            </widget>
           </item>
@@ -106,13 +99,6 @@
             </property>
             <property name="placeholderText">
              <string>Price</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="addList">
-            <property name="text">
-             <string>Add</string>
             </property>
            </widget>
           </item>

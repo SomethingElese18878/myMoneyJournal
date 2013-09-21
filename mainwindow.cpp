@@ -1,10 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "account.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //own logic
+    Account *allAccount = new Account();
+    allAccount->setMoney(12.34);
+
     ui->setupUi(this);
 
     //addBar
