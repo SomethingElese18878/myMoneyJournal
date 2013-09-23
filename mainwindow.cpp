@@ -8,7 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     //own logic
     this->allAccount = new Account();
-    allAccount->setMoney(12.34);
 
     ui->setupUi(this);
 
@@ -47,26 +46,32 @@ void MainWindow::add2List()
     ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
     ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
     ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
+
+    //Set
+
     //Total calculation
     QString *qstr_allAccount = new QString(ui->lineEditPrice->text());
-
     this->allAccount->setMoney(qstr_allAccount->toFloat());
-
-    //QString *bla = (QString) this->allAccount->getMoney();
-    bool *boolean = new bool(true);
-
-    ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_allAccount->toFloat(boolean) ));
+    QString qstr_totalTable = QString("%1").arg(this->allAccount->getMoney()) ;
+    ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_totalTable ));
 }
-
 
 void MainWindow::on_le_accountName_returnPressed()
 {
+    //Add newUser-radiobutton
     QString new_account_name = ui->le_accountName->text();
-
     QRadioButton *newUser = new QRadioButton(this);
     newUser->setText(new_account_name);
-    newUser->show();
     newUser->setChecked(true);
+    newUser->show();
+    int userRow = ui->gLay_userSwitch->rowCount();
+    ui->gLay_userSwitch->addWidget(newUser, userRow, 0, 1, 1);
+    //add newLabel for total account TODO: GROUP RADIOBUTTONS
+    QLabel *newLabel = new QLabel(this);
+    newLabel->setText("0,00");
+    ui->gLay_userSwitch->addWidget(newLabel, userRow, 1, 1, 1);
+
+    ui->le_accountName->setText(NULL);
 }
 
 void MainWindow::on_lineEditDescription_returnPressed()
