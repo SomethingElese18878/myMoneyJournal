@@ -2,13 +2,8 @@
 #include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    //own logic
-    this->allAccounts = new Account("allAccounts", 0.0f);
-
     ui->setupUi(this);
 
     //addBar
@@ -29,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //sidebar
     ui->rbtn_allAccounts->setChecked(true);
+
+    //own logic
+    this->allAccounts = new Account("allAccounts", 0.0f);
 }
 
 MainWindow::~MainWindow()
@@ -47,8 +45,6 @@ void MainWindow::add2List()
     ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
     ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
 
-    //Set
-
     //Total calculation
     QString *qstr_allAccount = new QString(ui->lineEditPrice->text());
     this->allAccounts->setMoney(qstr_allAccount->toFloat());
@@ -62,14 +58,15 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     //Add newUser-radiobutton
     QString new_account_name = ui->lineEdit_accountName->text();
 
-//    Account new_account_name
+    Account newAccount(new_account_name.toStdString(), 0.0f ); //Account *newAccount = new Account(new_account_name.toStdString(), 0.0f ); FIXME?
+    this->listAccounts.push_back(newAccount);
 
-    QRadioButton *newAccount = new QRadioButton(this);
-    newAccount->setText(new_account_name);
-    newAccount->setChecked(true);
-    newAccount->show();
+    QRadioButton *newRadioButtonAcc = new QRadioButton(this);
+    newRadioButtonAcc->setText(new_account_name);
+    newRadioButtonAcc->setChecked(true);
+    newRadioButtonAcc->show();
     int userRow = ui->gLay_userSwitch->rowCount();
-    ui->gLay_userSwitch->addWidget(newAccount, userRow, 0, 1, 1);
+    ui->gLay_userSwitch->addWidget(newRadioButtonAcc, userRow, 0, 1, 1);
 
     //add newLabel for total account TODO: GROUP RADIOBUTTONS
     QLabel *newLabel = new QLabel(this);

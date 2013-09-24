@@ -20,6 +20,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    std::list<Account> listAccounts;
     Account *allAccounts;
     
 private slots:

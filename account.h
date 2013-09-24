@@ -6,6 +6,7 @@
 class Account
 {
 public:
+    Account();
     Account(std::string account_name, float money);
     void setMoney(float money);
     inline float getMoney(){ return money; };
