@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStringList>
+#include <QButtonGroup>
 
 
 namespace Ui {
@@ -23,6 +24,7 @@ public:
 
     std::list<Account> listAccounts;
     Account *allAccounts;
+    QButtonGroup *btnGroup_user;
     
 private slots:
     void add2List();

@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //sidebar
     ui->rbtn_allAccounts->setChecked(true);
 
+    this->btnGroup_user = new QButtonGroup();
+    this->btnGroup_user->addButton(ui->rbtn_allAccounts);
+
     //own logic
     this->allAccounts = new Account("allAccounts", 0.0f);
 }
@@ -62,6 +65,7 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     this->listAccounts.push_back(newAccount);
 
     QRadioButton *newRadioButtonAcc = new QRadioButton(this);
+    this->btnGroup_user->addButton(newRadioButtonAcc);
     newRadioButtonAcc->setText(new_account_name);
     newRadioButtonAcc->setChecked(true);
     newRadioButtonAcc->show();
