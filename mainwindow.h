@@ -20,12 +20,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    Account *allAccount;
+    Account *allAccounts;
     
 private slots:
     void add2List();
-    void on_le_accountName_returnPressed();
-
+    void on_lineEdit_accountName_returnPressed();
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();
 

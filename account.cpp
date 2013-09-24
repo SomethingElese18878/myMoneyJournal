@@ -1,8 +1,9 @@
 #include "account.h"
 
-Account::Account()
+Account::Account(std::string account_name, float money)
 {
-    this->money = 0;
+    this->money = money;
+    this->account_name = account_name;
 }
 
 void Account::setMoney(float money){
