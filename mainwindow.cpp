@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QtSql>
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -29,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->btnGroup_user->addButton(ui->rbtn_allAccounts);
 
     //own logic
-    this->allAccounts = new Account("allAccounts", 0.0f);
+    this->allAccounts = new Account("allAccounts");
 }
 
 MainWindow::~MainWindow()
@@ -37,8 +39,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
+* add new Booking to booking-journal
+*/
 void MainWindow::add2List()
 {
+    //create newBooking object
+    Booking newBooking = Booking(ui->lineEditPrice->text().toFloat(), ui->lineEditDescription->text().toStdString());
+//    this->allAccounts->setBooking(newBooking);
     //Get a new row
     int insertRow = ui->tableWidgetBooking->rowCount();
     ui->tableWidgetBooking->insertRow(insertRow);
@@ -55,13 +63,15 @@ void MainWindow::add2List()
     ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_totalTable ));
 }
 
-//LINE EDIT for add accounts
+/*
+* LINE EDIT for add accounts
+*/
 void MainWindow::on_lineEdit_accountName_returnPressed()
 {
     //Add newUser-radiobutton
     QString new_account_name = ui->lineEdit_accountName->text();
 
-    Account newAccount(new_account_name.toStdString(), 0.0f ); //Account *newAccount = new Account(new_account_name.toStdString(), 0.0f ); FIXME?
+    Account newAccount(new_account_name.toStdString()); //Account *newAccount = new Account(new_account_name.toStdString()); FIXME?
     this->listAccounts.push_back(newAccount);
 
     QRadioButton *newRadioButtonAcc = new QRadioButton(this);
@@ -80,6 +90,14 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     ui->lineEdit_accountName->setText(NULL);
 }
 
+/*
+* Save accounts and bookings to database
+*/
+void MainWindow::on_btnSave_clicked()
+{
+
+}
+
 
 
 void MainWindow::on_lineEditDescription_returnPressed()
@@ -91,3 +109,5 @@ void MainWindow::on_lineEditPrice_returnPressed()
 {
     this->add2List();
 }
+
+

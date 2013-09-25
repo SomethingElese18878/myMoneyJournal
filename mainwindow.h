@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "account.h"
-//#include "booking.h"
+#include "Account.h"
+#include "Booking.h"
 
 #include <QMainWindow>
 #include <QModelIndex>
@@ -22,9 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    std::list<Account> listAccounts;
-    Account *allAccounts;
-    QButtonGroup *btnGroup_user;
+
     
 private slots:
     void add2List();
@@ -32,10 +30,16 @@ private slots:
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();
 
-
+    void on_btnSave_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QButtonGroup *btnGroup_user;
+
+    Account *allAccounts;
+    std::list<Account> listAccounts;
+
+    Booking *newBooking;
 };
 
 #endif // MAINWINDOW_H
