@@ -22,6 +22,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     Database.h \
     Booking.h \
-    Account.h
+    Account.h \
+    initdb.h
 
 FORMS    += mainwindow.ui

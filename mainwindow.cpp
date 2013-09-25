@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-#include <QtSql>
+#include "initdb.h"
+#include <iostream>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -72,10 +72,10 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     QString new_account_name = ui->lineEdit_accountName->text();
 
     Account newAccount(new_account_name.toStdString()); //Account *newAccount = new Account(new_account_name.toStdString()); FIXME?
-    this->listAccounts.push_back(newAccount);
+    listAccounts.push_back(newAccount);
 
     QRadioButton *newRadioButtonAcc = new QRadioButton(this);
-    this->btnGroup_user->addButton(newRadioButtonAcc);
+    btnGroup_user->addButton(newRadioButtonAcc);
     newRadioButtonAcc->setText(new_account_name);
     newRadioButtonAcc->setChecked(true);
     newRadioButtonAcc->show();
@@ -95,6 +95,21 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
 */
 void MainWindow::on_btnSave_clicked()
 {
+//    QString filename = QFileDialog::getOpenFileName(this, tr("Open Database"), "/home/norman/", tr("SQLite Database Files (*.sqlite)"));
+//    std::cout << "path: " << filename.toStdString() << std::endl;
+    QString filename("/home/norman/datenbank/"); //= new QString()
+
+    // initialize the database
+    QSqlError err = initDb(filename);
+    if (err.type() != QSqlError::NoError) {
+//        showError(err);
+        return;
+    }
+
+    // Create the data model
+    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setTable("booking");
 
 }
 

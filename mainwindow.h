@@ -9,6 +9,8 @@
 #include <QStringList>
 #include <QButtonGroup>
 
+#include <QtSql>
+
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +42,10 @@ private:
     std::list<Account> listAccounts;
 
     Booking *newBooking;
+
+    QSqlRelationalTableModel *model;
+    int priceIdx, descriptionIdx;
+    void showError(const QSqlError &err);
 };
 
 #endif // MAINWINDOW_H
