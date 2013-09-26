@@ -95,22 +95,26 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
 */
 void MainWindow::on_btnSave_clicked()
 {
-//    QString filename = QFileDialog::getOpenFileName(this, tr("Open Database"), "/home/norman/", tr("SQLite Database Files (*.sqlite)"));
-//    std::cout << "path: " << filename.toStdString() << std::endl;
-    QString filename("/home/norman/datenbank/"); //= new QString()
 
-    // initialize the database
+    QString filename("/home/norman/datenbank/");
+
+    // initialize the database, filename: unused
     QSqlError err = initDb(filename);
     if (err.type() != QSqlError::NoError) {
 //        showError(err);
         return;
     }
 
-//    // Create the data model
-//    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
-//    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-//    model->setTable("booking");
+    // Create the data model
+    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setTable("booking");
 
+}
+
+void MainWindow::on_btnLoad_clicked()
+{
+    Account::loadFromDatabase();
 }
 
 

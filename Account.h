@@ -14,6 +14,8 @@ public:
     inline float getMoney(){ return money; };
 
     void setBooking(Booking newBooking);
+
+    static void loadFromDatabase(); //load Accounts from Database
 private:
     float money;
     std::string account_name;

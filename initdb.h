@@ -31,8 +31,7 @@ QSqlError initDb(QString filename)
     db.setDatabaseName("db_norman");
 
     //Open db
-    if (!db.open())
-        return db.lastError();
+    if (!db.open()) return db.lastError();
 
     // ??? Can i read-out tables for restore saved booking and accounts in the gui?
 //    QStringList tables = db.tables();
@@ -40,7 +39,7 @@ QSqlError initDb(QString filename)
 //        std::cout << "TABLES CONTAINS!!!!" << std::endl;
 //        return QSqlError();
 
-    //Create tables
+    //Create tables ACCOUNTS & BOOKING
     QSqlQuery q;
     if (!q.exec(QLatin1String("create table accounts(id integer primary key, name varchar)"))) //total for lbl?
         return q.lastError();
