@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "initdb.h"
 #include <iostream>
+#include <QDataWidgetMapper>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -14,16 +15,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //set dateEdit to currentDate
     ui->dateEdit->setDate(QDate::currentDate());
 
-    //setColumn, it's width and how they named
-    ui->tableWidgetBooking->setColumnCount(4);
-    ui->tableWidgetBooking->setColumnWidth(0, 250); //Description
-    ui->tableWidgetBooking->setColumnWidth(1, 100); //Price
-    ui->tableWidgetBooking->setColumnWidth(2, 100); //Date
-    ui->tableWidgetBooking->setColumnWidth(2, 100); //Total
-    QStringList columnText;
-    columnText << "Description" << "Price" << "Date" << "Total";
-    ui->tableWidgetBooking->setHorizontalHeaderLabels(columnText);
-
     //sidebar
     ui->rbtn_allAccounts->setChecked(true);
 
@@ -32,6 +23,45 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //own logic
     this->allAccounts = new Account("allAccounts");
+
+    //Implement database-model
+    QString filename("/home/norman/datenbank/");
+
+    // initialize the database, filename: unused
+    QSqlError err = initDb(filename);
+    if (err.type() != QSqlError::NoError) {
+//        showError(err);
+        return;
+    }
+
+    // Create the data model
+    model = new QSqlRelationalTableModel(ui->tableBooking);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setTable("booking");
+
+    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
+    model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
+
+    // Populate the model
+    if (!model->select()) {
+//        showError(model->lastError());
+        return;
+    }
+
+    ui->tableBooking->setModel(model);
+//    ui->tableBooking->setItemDelegate(new Book);
+    ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
+    ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper->setModel(model);
+    mapper->addMapping(ui->lineEditDescription, model->fieldIndex("description"));
+    mapper->addMapping(ui->lineEditPrice, model->fieldIndex("price"));
+
+    connect(ui->tableBooking->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+
+    ui->tableBooking->setCurrentIndex(model->index(0, 0));
 }
 
 MainWindow::~MainWindow()
@@ -39,35 +69,37 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*
-* add new Booking to booking-journal
-*/
+
 void MainWindow::add2List()
 {
-    //create newBooking object
-    Booking newBooking = Booking(ui->lineEditPrice->text().toFloat(), ui->lineEditDescription->text().toStdString());
-//    this->allAccounts->setBooking(newBooking);
-    //Get a new row
-    int insertRow = ui->tableWidgetBooking->rowCount();
-    ui->tableWidgetBooking->insertRow(insertRow);
+    /*
+    * add new Booking to booking-journal
+    */
+//    //create newBooking object
+//    Booking newBooking = Booking(ui->lineEditPrice->text().toFloat(), ui->lineEditDescription->text().toStdString());
+////    this->allAccounts->setBooking(newBooking);
+//    //Get a new row
+//    int insertRow = ui->tableWidgetBooking->rowCount();
+//    ui->tableWidgetBooking->insertRow(insertRow);
 
-    //insert description, price and date into the table
-    ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
-    ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
-    ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
+//    //insert description, price and date into the table
+//    ui->tableWidgetBooking->setItem(insertRow, 0, new QTableWidgetItem(ui->lineEditDescription->text()));
+//    ui->tableWidgetBooking->setItem(insertRow, 1, new QTableWidgetItem(ui->lineEditPrice->text()));
+//    ui->tableWidgetBooking->setItem(insertRow, 2,  new QTableWidgetItem(ui->dateEdit->date().toString()));
 
-    //Total calculation
-    QString *qstr_allAccount = new QString(ui->lineEditPrice->text());
-    this->allAccounts->setMoney(qstr_allAccount->toFloat());
-    QString qstr_totalTable = QString("%1").arg(this->allAccounts->getMoney()); //convert: float ==> qstring
-    ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_totalTable ));
+//    //Total calculation
+//    QString *qstr_allAccount = new QString(ui->lineEditPrice->text());
+//    this->allAccounts->setMoney(qstr_allAccount->toFloat());
+//    QString qstr_totalTable = QString("%1").arg(this->allAccounts->getMoney()); //convert: float ==> qstring
+//    ui->tableWidgetBooking->setItem(insertRow, 3, new QTableWidgetItem( qstr_totalTable ));
 }
 
-/*
-* LINE EDIT for add accounts
-*/
+
 void MainWindow::on_lineEdit_accountName_returnPressed()
 {
+    /*
+    * LINE EDIT for add accounts
+    */
     //Add newUser-radiobutton
     QString new_account_name = ui->lineEdit_accountName->text();
 
@@ -90,38 +122,13 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     ui->lineEdit_accountName->setText(NULL);
 }
 
-/*
-* Save accounts and bookings to database
-*/
+
 void MainWindow::on_btnSave_clicked()
 {
-    QString filename("/home/norman/datenbank/");
+    /*
+    * Save accounts and bookings to database
+    */
 
-    // initialize the database, filename: unused
-    QSqlError err = initDb(filename);
-    if (err.type() != QSqlError::NoError) {
-//        showError(err);
-        return;
-    }
-
-    // Create the data model
-    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->setTable("booking");
-
-    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
-    model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
-
-    // Populate the model
-    if (!model->select()) {
-//        showError(model->lastError());
-        return;
-    }
-
-
-
-
-//    ui->tableWidgetBooking->setModel(model);
 
 }
 
@@ -134,12 +141,12 @@ void MainWindow::on_btnLoad_clicked()
 
 void MainWindow::on_lineEditDescription_returnPressed()
 {
-    this->add2List();
+//    this->add2List();
 }
 
 void MainWindow::on_lineEditPrice_returnPressed()
 {
-    this->add2List();
+//    this->add2List();
 }
 
 

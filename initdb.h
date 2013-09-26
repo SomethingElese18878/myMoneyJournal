@@ -33,11 +33,11 @@ QSqlError initDb(QString filename)
     //Open db
     if (!db.open()) return db.lastError();
 
-    // ??? Can i read-out tables for restore saved booking and accounts in the gui?
-//    QStringList tables = db.tables();
-//    if (tables.contains("booking", Qt::CaseInsensitive) && tables.contains("accounts", Qt::CaseInsensitive))
-//        std::cout << "TABLES CONTAINS!!!!" << std::endl;
-//        return QSqlError();
+    // ??? In combination with tableView it parses from db2gui
+    QStringList tables = db.tables();
+    if (tables.contains("booking", Qt::CaseInsensitive) && tables.contains("accounts", Qt::CaseInsensitive))
+        std::cout << "TABLES CONTAINS!!!!" << std::endl;
+        return QSqlError();
 
     //Create tables ACCOUNTS & BOOKING
     QSqlQuery q;

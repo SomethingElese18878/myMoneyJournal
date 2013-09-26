@@ -33,7 +33,6 @@ private slots:
     void on_lineEditPrice_returnPressed();
 
     void on_btnSave_clicked();
-
     void on_btnLoad_clicked();
 
 private:

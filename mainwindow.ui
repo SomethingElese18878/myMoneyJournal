@@ -82,7 +82,7 @@
       <item>
        <layout class="QVBoxLayout" name="vLay_booking">
         <item>
-         <widget class="QTableWidget" name="tableWidgetBooking"/>
+         <widget class="QTableView" name="tableBooking"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="hLay_addBar">
