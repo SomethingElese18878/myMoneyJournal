@@ -95,7 +95,6 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
 */
 void MainWindow::on_btnSave_clicked()
 {
-
     QString filename("/home/norman/datenbank/");
 
     // initialize the database, filename: unused
@@ -109,6 +108,20 @@ void MainWindow::on_btnSave_clicked()
     model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->setTable("booking");
+
+    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
+    model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
+
+    // Populate the model
+    if (!model->select()) {
+//        showError(model->lastError());
+        return;
+    }
+
+
+
+
+//    ui->tableWidgetBooking->setModel(model);
 
 }
 

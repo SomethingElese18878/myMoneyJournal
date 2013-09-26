@@ -21,7 +21,9 @@ void Account::setBooking(Booking newBooking){
 
 }
 
-void Account::loadFromDatabase(){
+void Account::loadFromDatabase(){   //static
     std::cout << "STATIC LOAD FROM DATABASE" << std::endl;
+
+
 
 }
