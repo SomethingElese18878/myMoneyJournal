@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Create the data model
     model = new QSqlRelationalTableModel(ui->tableBooking);
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);
     model->setTable("booking");
 
     model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
