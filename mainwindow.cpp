@@ -24,11 +24,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //own logic
     this->allAccounts = new Account("allAccounts");
 
-    //Implement database-model
-    QString filename("/home/norman/datenbank/");
 
+    //Implement database-model
     // initialize the database, filename: unused
-    QSqlError err = initDb(filename);
+    QSqlError err = initDb();
     if (err.type() != QSqlError::NoError) {
 //        showError(err);
         return;
@@ -58,8 +57,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     mapper->addMapping(ui->lineEditDescription, model->fieldIndex("description"));
     mapper->addMapping(ui->lineEditPrice, model->fieldIndex("price"));
 
-    connect(ui->tableBooking->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+    //Values of marked entry are shown in lineEdit_description && lineEdit_price
+//    connect(ui->tableBooking->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+//            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
     ui->tableBooking->setCurrentIndex(model->index(0, 0));
 }

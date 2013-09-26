@@ -20,7 +20,7 @@ QVariant addBooking(QSqlQuery &q, const QString &description, const int &price)
     return q.lastInsertId();
 }
 
-QSqlError initDb(QString filename)
+QSqlError initDb()
 {
     /*
     *   Initiates a database with the table ACCOUNTS and BOOKING.
