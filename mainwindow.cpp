@@ -106,10 +106,10 @@ void MainWindow::on_btnSave_clicked()
         return;
     }
 
-    // Create the data model
-    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->setTable("booking");
+//    // Create the data model
+//    model = new QSqlRelationalTableModel(ui->tableWidgetBooking);
+//    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+//    model->setTable("booking");
 
 }
 
