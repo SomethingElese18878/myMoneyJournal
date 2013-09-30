@@ -27,7 +27,7 @@ public:
 
     
 private slots:
-    void add2List();
+    QSqlError add2List();
     void on_lineEdit_accountName_returnPressed();
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();
