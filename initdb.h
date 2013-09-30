@@ -51,17 +51,10 @@ QSqlError initDb()
         if (!q.exec(QLatin1String("create table booking(id integer primary key, description varchar, price integer)")))
             return q.lastError();
 
-        //    Insert datas into table ACCOUNTS
+        // Example: Insert datas into table ACCOUNTS
         //    if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
         //        return q.lastError();
-        //    addAccount(q, QLatin1String("norman"));
-        //    addAccount(q, QLatin1String("test"));
-
-            //Insert datas into table BOOKING
-        //    if (!q.prepare(QLatin1String("insert into booking(description, price) values(?, ?)")))
-        //        return q.lastError();
-        //    addBooking(q, QLatin1String("Gehalt"), 750);
-        //    addBooking(q, QLatin1String("Food"), -10);
+        //    addAccount(q, QLatin1String("All accounts"));
     }
 
     return QSqlError();
