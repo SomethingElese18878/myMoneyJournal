@@ -113,23 +113,6 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     ui->lineEdit_accountName->setText(NULL);
 }
 
-
-void MainWindow::on_btnSave_clicked()
-{
-    /*
-    * Save accounts and bookings to database
-    */
-
-
-}
-
-void MainWindow::on_btnLoad_clicked()
-{
-    Account::loadFromDatabase();
-}
-
-
-
 void MainWindow::on_lineEditDescription_returnPressed()
 {
     this->add2List();

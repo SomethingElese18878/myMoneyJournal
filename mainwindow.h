@@ -32,9 +32,6 @@ private slots:
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();
 
-    void on_btnSave_clicked();
-    void on_btnLoad_clicked();
-
 private:
     Ui::MainWindow *ui;
     QButtonGroup *btnGroup_user;
