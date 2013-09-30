@@ -38,13 +38,14 @@ QSqlError initDb()
 
     //Read-in the existing tables.
     if (db_exist){
-        //     ??? In combination with tableView it parses from db2gui
+        // parses existing tables into model.
         QStringList tables = db.tables();
         if (tables.contains("booking", Qt::CaseInsensitive) && tables.contains("accounts", Qt::CaseInsensitive))
             std::cout << "TABLES CONTAINS!!!!" << std::endl;
             return QSqlError();
     } else{
-        //Create tables ACCOUNTS & BOOKING
+        //Create tables ACCOUNTS & BOOKING, if no database exists.
+        //Creates default ACCOUNT "All accounts".
         QSqlQuery q;
         if (!q.exec(QLatin1String("create table accounts(id integer primary key, name varchar)"))) //total for lbl?
             return q.lastError();
@@ -56,7 +57,6 @@ QSqlError initDb()
         //        return q.lastError();
         //    addAccount(q, QLatin1String("All accounts"));
     }
-
     return QSqlError();
 }
 

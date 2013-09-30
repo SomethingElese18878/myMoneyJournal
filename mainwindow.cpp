@@ -17,8 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->btnGroup_user = new QButtonGroup();
     this->btnGroup_user->addButton(ui->rbtn_allAccounts);
     //own logic
-    this->allAccounts = new Account("allAccounts");
-
+    this->allAccounts = new Account("allAccounts"); //TODO: Read-out users from database.
 
     //Implement database-model
     QSqlError err = initDb();
@@ -58,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //    ui->tableBooking->setCurrentIndex(model->index(0, 0));
 }
 
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -76,12 +76,9 @@ QSqlError MainWindow::add2List()
     }
 
     addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toInt());
+//    ui->tableBooking->2
 
-    std::cout << "--- submit all ---" << std::endl;
-
-    model->submitAll();
-//    if(!model->submitAll()) return q.lastError();
-
+    model->submitAll(); // if(!model->submitAll()) return q.lastError();
     return q.lastError();
 }
 
