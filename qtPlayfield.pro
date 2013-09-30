@@ -15,12 +15,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    Database.cpp \
     Booking.cpp \
     Account.cpp
 
 HEADERS  += mainwindow.h \
-    Database.h \
     Booking.h \
     Account.h \
     initdb.h
