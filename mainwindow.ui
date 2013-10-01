@@ -68,7 +68,17 @@
       <item>
        <layout class="QVBoxLayout" name="vLay_booking">
         <item>
-         <widget class="QTableView" name="tableBooking"/>
+         <widget class="QTableView" name="tableBooking">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>false</bool>
+          </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="hLay_addBar">

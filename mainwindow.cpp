@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     model = new QSqlRelationalTableModel(ui->tableBooking);
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
     model->setTable("booking");
-
     model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
     model->setHeaderData(model->fieldIndex("date"), Qt::Horizontal, tr("Date"));
     model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
@@ -39,20 +38,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Populate the model
     model->select();
     ui->tableBooking->setModel(model);
-//    ui->tableBooking->setItemDelegate(new Book);
     ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
-
-    //Mapping database ==> widgets
-//    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
-//    mapper->setModel(model);
-//    mapper->addMapping(ui->lineEditDescription, model->fieldIndex("description"));
-//    mapper->addMapping(ui->lineEditPrice, model->fieldIndex("price"));
-
-//    Values of marked entry are shown in lineEdit_description && lineEdit_price
-//    connect(ui->tableBooking->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-//            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-//    ui->tableBooking->setCurrentIndex(model->index(model->rowCount(), model->columnCount()));
+    // ColumnHeaders set to FIXED size, except for the "description" which is STRETCHED.
+    ui->tableBooking->resizeColumnsToContents();
+    ui->tableBooking->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+    ui->tableBooking->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
 }
 
 
