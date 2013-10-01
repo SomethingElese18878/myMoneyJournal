@@ -21,8 +21,8 @@ void addBooking(QSqlQuery &q, const QString &description, const float &price)
      */
     QString currentDate = QDate::currentDate().toString("dd.MM.yyyy");
 
-    q.addBindValue(description); //<description>
     q.addBindValue(currentDate);    // <date>
+    q.addBindValue(description); //<description>
     q.addBindValue(price);  // <price>
     q.addBindValue("0");  // <total>
 
@@ -58,7 +58,7 @@ QSqlError initDb()
         QSqlQuery q;
         if (!q.exec(QLatin1String("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)"))) //total for lbl?
             return q.lastError();
-        if (!q.exec(QLatin1String("CREATE TABLE booking(id INTEGER primary key, description VARCHAR, date TEXT , price REAL, total REAL)")))
+        if (!q.exec(QLatin1String("CREATE TABLE booking(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)")))
             return q.lastError();
 
         // Example: Insert datas into table ACCOUNTS

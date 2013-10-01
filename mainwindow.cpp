@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     model = new QSqlRelationalTableModel(ui->tableBooking);
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
     model->setTable("booking");
-    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
     model->setHeaderData(model->fieldIndex("date"), Qt::Horizontal, tr("Date"));
+    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
     model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
     model->setHeaderData(model->fieldIndex("total"), Qt::Horizontal, tr("Total"));
 
@@ -40,8 +40,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
     // ColumnHeaders set to FIXED size, except for the "description" which is STRETCHED.
     ui->tableBooking->resizeColumnsToContents();
-    ui->tableBooking->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
-    ui->tableBooking->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setResizeMode(1, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setResizeMode(2, QHeaderView::Stretch);
     ui->tableBooking->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
     ui->tableBooking->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
 }
@@ -60,7 +60,7 @@ QSqlError MainWindow::add2List()
     */
     std::cout << "--- add2List ---" << std::endl;
     QSqlQuery q;
-    if (!q.prepare(QLatin1String("insert into booking(description, date, price, total) values(?, ?, ?, ?)"))){
+    if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
         return q.lastError();
     }
     addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat());
