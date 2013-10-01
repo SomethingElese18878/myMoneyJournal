@@ -14,13 +14,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    Booking.cpp \
-    Account.cpp
+        mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-    Booking.h \
-    Account.h \
     initdb.h
 
 FORMS    += mainwindow.ui
