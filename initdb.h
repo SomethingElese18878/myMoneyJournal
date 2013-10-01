@@ -13,16 +13,21 @@ QVariant addAccount(QSqlQuery &q, const QString &name)
     return q.lastInsertId();
 }
 
-QSqlRecord addBooking(QSqlQuery &q, const QString &description, const float &price)
+void addBooking(QSqlQuery &q, const QString &description, const float &price)
 {
-    q.addBindValue(description);
-    q.addBindValue(price);
-//    q.addBindValue("fix");
-    QSqlRecord rec = q.record();
-    q.exec();
-    return rec;
+    /*
+     * Format of booking:
+     * <description>   <date>     <price> <total>
+     * food           17.12.2013  5,49    15,49
+     */
+    QString currentDate = QDate::currentDate().toString("dd.MM.yyyy");
 
-//    return q.lastInsertId();
+    q.addBindValue(description); //<description>
+    q.addBindValue(currentDate);    // <date>
+    q.addBindValue(price);  // <price>
+    q.addBindValue("0");  // <total>
+
+    q.exec();
 }
 
 QSqlError initDb()
@@ -31,10 +36,11 @@ QSqlError initDb()
     *   Initiates a database with the table ACCOUNTS and BOOKING.
     */
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE"); //db connection name
+    const QString db_name = "db_moneyJournal";
     db.setHostName("127.0.0.1");
-    db.setDatabaseName("db_norman");
+    db.setDatabaseName(db_name);
 
-    bool db_exist = QFile::exists("./db_norman");
+    bool db_exist = QFile::exists(db_name);
     std::cout << "db_exist: " << db_exist << std::endl;
 
     //Open db
@@ -51,9 +57,9 @@ QSqlError initDb()
         //Create tables ACCOUNTS & BOOKING, if no database exists.
         //Creates default ACCOUNT "All accounts".
         QSqlQuery q;
-        if (!q.exec(QLatin1String("CREATE TABLE accounts(id integer primary key, name varchar)"))) //total for lbl?
+        if (!q.exec(QLatin1String("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)"))) //total for lbl?
             return q.lastError();
-        if (!q.exec(QLatin1String("CREATE TABLE booking(id integer primary key, description varchar, price REAL, date TEXT)")))
+        if (!q.exec(QLatin1String("CREATE TABLE booking(id INTEGER primary key, description VARCHAR, date TEXT , price REAL, total REAL)")))
             return q.lastError();
 
         // Example: Insert datas into table ACCOUNTS

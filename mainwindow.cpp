@@ -32,21 +32,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     model->setTable("booking");
 
     model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
+    model->setHeaderData(model->fieldIndex("date"), Qt::Horizontal, tr("Date"));
     model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
+    model->setHeaderData(model->fieldIndex("total"), Qt::Horizontal, tr("Total"));
 
     // Populate the model
-    if (!model->select()) {
-//        showError(model->lastError());
-        return;
-    }
-
-
+    model->select();
     ui->tableBooking->setModel(model);
 //    ui->tableBooking->setItemDelegate(new Book);
     ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
-
-    std::cout << "rowCount: " << model->rowCount() << std::endl;
 
     //Mapping database ==> widgets
 //    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
@@ -74,10 +69,10 @@ QSqlError MainWindow::add2List()
     */
     std::cout << "--- add2List ---" << std::endl;
     QSqlQuery q;
-    if (!q.prepare(QLatin1String("insert into booking(description, price) values(?, ?)"))){
+    if (!q.prepare(QLatin1String("insert into booking(description, date, price, total) values(?, ?, ?, ?)"))){
         return q.lastError();
     }
-    QSqlRecord rec =  addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat());
+    addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat());
 
     model->setTable("booking");
     model->select();
