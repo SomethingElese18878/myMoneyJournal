@@ -58,6 +58,7 @@ QSqlError MainWindow::add2List()
     /*
     * add new Booking to database and ui->tableBooking;
     */
+
     float total = getTotal();
     total += ui->lineEditPrice->text().toFloat();
     std::cout << "--- add2List ---" << std::endl;
@@ -70,8 +71,9 @@ QSqlError MainWindow::add2List()
     model->setTable("booking");
     model->select();
     ui->tableBooking->setModel(model);
-
+    ui->tableBooking->resizeColumnsToContents(); //prevents that data will not shown correctly, if they got more digits as the field can show.
     if(!model->submitAll()) return q.lastError(); //use not necessary, but in thought on future-bugs implemented
+
     return q.lastError();
 }
 
