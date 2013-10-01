@@ -6,11 +6,10 @@
 #include <iostream>
 #include <QFile>
 
-QVariant addAccount(QSqlQuery &q, const QString &name)
+void addAccount(QSqlQuery &q, const QString &name)
 {
     q.addBindValue(name);
     q.exec();
-    return q.lastInsertId();
 }
 
 void addBooking(QSqlQuery &q, const QString &description, const float &price)

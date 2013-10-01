@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Account.h"
-#include "Booking.h"
-
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStringList>
@@ -23,8 +20,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
     
 private slots:
     QSqlError add2List();
@@ -35,11 +30,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QButtonGroup *btnGroup_user;
-
-    Account *allAccounts;
-    std::list<Account> listAccounts;
-
-    Booking *newBooking;
 
     QSqlRelationalTableModel *model;
     int priceIdx, descriptionIdx;

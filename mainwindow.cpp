@@ -16,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->rbtn_allAccounts->setChecked(true);
     this->btnGroup_user = new QButtonGroup();
     this->btnGroup_user->addButton(ui->rbtn_allAccounts);
-    //own logic
-    this->allAccounts = new Account("allAccounts"); //TODO: Read-out users from database.
 
     //Implement database-model
     QSqlError err = initDb();
@@ -83,9 +81,6 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     */
     //Add newUser-radiobutton
     QString new_account_name = ui->lineEdit_accountName->text();
-
-    Account newAccount(new_account_name.toStdString()); //Account *newAccount = new Account(new_account_name.toStdString()); FIXME?
-    listAccounts.push_back(newAccount);
 
     QRadioButton *newRadioButtonAcc = new QRadioButton(this);
     btnGroup_user->addButton(newRadioButtonAcc);
