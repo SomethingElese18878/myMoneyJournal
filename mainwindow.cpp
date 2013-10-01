@@ -77,7 +77,7 @@ QSqlError MainWindow::add2List()
     if (!q.prepare(QLatin1String("insert into booking(description, price) values(?, ?)"))){
         return q.lastError();
     }
-    QSqlRecord rec =  addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toInt());
+    QSqlRecord rec =  addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat());
 
     model->setTable("booking");
     model->select();

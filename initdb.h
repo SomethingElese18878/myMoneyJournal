@@ -13,10 +13,11 @@ QVariant addAccount(QSqlQuery &q, const QString &name)
     return q.lastInsertId();
 }
 
-QSqlRecord addBooking(QSqlQuery &q, const QString &description, const int &price)
+QSqlRecord addBooking(QSqlQuery &q, const QString &description, const float &price)
 {
     q.addBindValue(description);
     q.addBindValue(price);
+//    q.addBindValue("fix");
     QSqlRecord rec = q.record();
     q.exec();
     return rec;
@@ -50,15 +51,15 @@ QSqlError initDb()
         //Create tables ACCOUNTS & BOOKING, if no database exists.
         //Creates default ACCOUNT "All accounts".
         QSqlQuery q;
-        if (!q.exec(QLatin1String("create table accounts(id integer primary key, name varchar)"))) //total for lbl?
+        if (!q.exec(QLatin1String("CREATE TABLE accounts(id integer primary key, name varchar)"))) //total for lbl?
             return q.lastError();
-        if (!q.exec(QLatin1String("create table booking(id integer primary key, description varchar, price integer)")))
+        if (!q.exec(QLatin1String("CREATE TABLE booking(id integer primary key, description varchar, price REAL, date TEXT)")))
             return q.lastError();
 
         // Example: Insert datas into table ACCOUNTS
-        //    if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
-        //        return q.lastError();
-        //    addAccount(q, QLatin1String("All accounts"));
+            if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
+                return q.lastError();
+            addAccount(q, QLatin1String("All accounts"));
     }
     return QSqlError();
 }
