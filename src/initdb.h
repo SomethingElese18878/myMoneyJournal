@@ -12,7 +12,7 @@ void addAccount(QSqlQuery &q, const QString &name)
     q.exec();
 }
 
-void addBooking(QSqlQuery &q, const QString &description, const float &price)
+void addBooking(QSqlQuery &q, const QString &description, const float &price, const float &total)
 {
     /*
      * Format of booking:
@@ -24,9 +24,15 @@ void addBooking(QSqlQuery &q, const QString &description, const float &price)
     q.addBindValue(currentDate);    // <date>
     q.addBindValue(description); //<description>
     q.addBindValue(price);  // <price>
-    q.addBindValue("0");  // <total>
-
+    q.addBindValue(total);  // <total>
     q.exec();
+}
+
+float getTotal()
+{
+    QSqlQuery query("SELECT total FROM booking WHERE id = (SELECT MAX(ID) FROM booking)");
+    if (!query.first()) return 0.0f;
+    return query.value(0).toFloat();
 }
 
 QSqlError initDb()

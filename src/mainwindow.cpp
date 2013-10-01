@@ -58,12 +58,14 @@ QSqlError MainWindow::add2List()
     /*
     * add new Booking to database and ui->tableBooking;
     */
+    float total = getTotal();
+    total += ui->lineEditPrice->text().toFloat();
     std::cout << "--- add2List ---" << std::endl;
     QSqlQuery q;
     if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
         return q.lastError();
     }
-    addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat());
+    addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
     model->setTable("booking");
     model->select();
