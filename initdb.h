@@ -13,11 +13,14 @@ QVariant addAccount(QSqlQuery &q, const QString &name)
     return q.lastInsertId();
 }
 
-void addBooking(QSqlQuery &q, const QString &description, const int &price)
+QSqlRecord addBooking(QSqlQuery &q, const QString &description, const int &price)
 {
     q.addBindValue(description);
     q.addBindValue(price);
+    QSqlRecord rec = q.record();
     q.exec();
+    return rec;
+
 //    return q.lastInsertId();
 }
 

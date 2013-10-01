@@ -40,10 +40,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         return;
     }
 
+
     ui->tableBooking->setModel(model);
 //    ui->tableBooking->setItemDelegate(new Book);
     ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    std::cout << "rowCount: " << model->rowCount() << std::endl;
 
     //Mapping database ==> widgets
 //    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
@@ -51,10 +54,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //    mapper->addMapping(ui->lineEditDescription, model->fieldIndex("description"));
 //    mapper->addMapping(ui->lineEditPrice, model->fieldIndex("price"));
 
-    //Values of marked entry are shown in lineEdit_description && lineEdit_price
+//    Values of marked entry are shown in lineEdit_description && lineEdit_price
 //    connect(ui->tableBooking->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
 //            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-//    ui->tableBooking->setCurrentIndex(model->index(0, 0));
+//    ui->tableBooking->setCurrentIndex(model->index(model->rowCount(), model->columnCount()));
 }
 
 
@@ -74,11 +77,13 @@ QSqlError MainWindow::add2List()
     if (!q.prepare(QLatin1String("insert into booking(description, price) values(?, ?)"))){
         return q.lastError();
     }
+    QSqlRecord rec =  addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toInt());
 
-    addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toInt());
-//    ui->tableBooking->2
+    model->setTable("booking");
+    model->select();
+    ui->tableBooking->setModel(model);
 
-    model->submitAll(); // if(!model->submitAll()) return q.lastError();
+    if(!model->submitAll()) return q.lastError(); //use not necessary, but in thought on future-bugs implemented
     return q.lastError();
 }
 
