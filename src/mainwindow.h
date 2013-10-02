@@ -10,7 +10,7 @@
 #include <QButtonGroup>
 #include <QDataWidgetMapper>
 #include <QtSql>
-
+#include <QLabel>
 #include <iostream>
 
 

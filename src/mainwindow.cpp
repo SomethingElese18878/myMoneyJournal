@@ -30,10 +30,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     userModel = new QSqlQueryModel();
     userModel->setQuery("SELECT name FROM accounts");
 
-    int userRow = ui->gLay_userSwitch->rowCount();
-    qDebug() << userRow;
-
     for (int i = 0; i < userModel->rowCount(); ++i) {
+          QLabel *lbl = new QLabel("0,00");
           QString name = userModel->record(i).value("name").toString();
           QRadioButton *newRadioBtnAccount = new QRadioButton(this);
           btnGroup_user->addButton(newRadioBtnAccount);
@@ -41,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
           if(i < 1) newRadioBtnAccount->setChecked(true);   //Check first element
           newRadioBtnAccount->show();
           int userRow = ui->gLay_userSwitch->rowCount();
-          qDebug() << userRow;
           ui->gLay_userSwitch->addWidget(newRadioBtnAccount, userRow, 0, 1, 1);
+          ui->gLay_userSwitch->addWidget(lbl, userRow, 1, 1, 1);
           qDebug() << name;
       }
 
@@ -81,7 +79,6 @@ QSqlError MainWindow::add2List()
     /*
     * add new Booking to database and ui->tableBooking;
     */
-
     float total = database->getTotal();
     total += ui->lineEditPrice->text().toFloat();
     std::cout << "--- add2List ---" << std::endl;
