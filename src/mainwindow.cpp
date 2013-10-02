@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "initdb.h"
+
 #include <iostream>
 #include <QDataWidgetMapper>
 
@@ -18,7 +18,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->btnGroup_user->addButton(ui->rbtn_allAccounts);
 
     //Implement database-model
-    QSqlError err = initDb();
+    Database *database = new Database();
+    QSqlError err =  database->initDb();
+
     if (err.type() != QSqlError::NoError) {
 //        showError(err);
         return;
@@ -59,14 +61,14 @@ QSqlError MainWindow::add2List()
     * add new Booking to database and ui->tableBooking;
     */
 
-    float total = getTotal();
+    float total = database->getTotal();
     total += ui->lineEditPrice->text().toFloat();
     std::cout << "--- add2List ---" << std::endl;
     QSqlQuery q;
     if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
         return q.lastError();
     }
-    addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
+    database->addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
     model->setTable("booking");
     model->select();

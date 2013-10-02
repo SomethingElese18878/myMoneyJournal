@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "Database.h"
+
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStringList>
@@ -30,10 +32,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QButtonGroup *btnGroup_user;
+    Database *database;
 
     QSqlRelationalTableModel *model;
     int priceIdx, descriptionIdx;
-    void showError(const QSqlError &err);
 };
 
 #endif // MAINWINDOW_H

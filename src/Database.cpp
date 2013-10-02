@@ -1,18 +1,18 @@
-#ifndef INITDB_H
-#define INITDB_H
+#include "Database.h"
 
-#include <QtSql>
-#include <QFileDialog>
-#include <iostream>
-#include <QFile>
+Database::Database()
+{
 
-void addAccount(QSqlQuery &q, const QString &name)
+}
+
+
+void Database::addAccount(QSqlQuery &q, const QString &name)
 {
     q.addBindValue(name);
     q.exec();
 }
 
-void addBooking(QSqlQuery &q, const QString &description, const float &price, const float &total)
+void Database::addBooking(QSqlQuery &q, const QString &description, const float &price, const float &total)
 {
     /*
      * Format of booking:
@@ -28,14 +28,14 @@ void addBooking(QSqlQuery &q, const QString &description, const float &price, co
     q.exec();
 }
 
-float getTotal()
+float Database::getTotal()
 {
     QSqlQuery query("SELECT total FROM booking WHERE id = (SELECT MAX(ID) FROM booking)");
     if (!query.first()) return 0.0f;
     return query.value(0).toFloat();
 }
 
-QSqlError initDb()
+QSqlError Database::initDb()
 {
     /*
     *   Initiates a database with the table ACCOUNTS and BOOKING.
@@ -75,6 +75,3 @@ QSqlError initDb()
     return QSqlError();
 }
 
-
-
-#endif // INITDB_H
