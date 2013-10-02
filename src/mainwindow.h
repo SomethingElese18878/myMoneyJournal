@@ -40,7 +40,6 @@ private:
 
     QSqlRelationalTableModel *model;
     QSqlQueryModel *userModel;
-    int priceIdx, descriptionIdx;
 };
 
 #endif // MAINWINDOW_H
