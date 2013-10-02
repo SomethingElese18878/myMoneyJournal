@@ -1,4 +1,4 @@
-qtPlayfield
+myMoney
 ===========
 
 myMoneyJournal is a lightweight, qt-based journal to manage you're finance in a simpley way.  
