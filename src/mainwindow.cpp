@@ -68,7 +68,7 @@ QSqlError MainWindow::add2List()
     if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
         return q.lastError();
     }
-    database->addBooking(q, ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
+    database->addBooking(q, ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
     model->setTable("booking");
     model->select();

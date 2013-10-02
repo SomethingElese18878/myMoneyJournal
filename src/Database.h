@@ -13,7 +13,7 @@ public:
 
     QSqlError initDb();
     void addAccount(QSqlQuery &q, const QString &name);
-    void addBooking(QSqlQuery &q, const QString &description, const float &price, const float &total);
+    void addBooking(QSqlQuery &q, const QDate& date,  const QString &description, const float &price, const float &total);
     float getTotal();
 private:
     float total;

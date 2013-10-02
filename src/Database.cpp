@@ -12,16 +12,14 @@ void Database::addAccount(QSqlQuery &q, const QString &name)
     q.exec();
 }
 
-void Database::addBooking(QSqlQuery &q, const QString &description, const float &price, const float &total)
+void Database::addBooking(QSqlQuery &q, const QDate &date, const QString &description, const float &price, const float &total)
 {
     /*
      * Format of booking:
      * <description>   <date>     <price> <total>
      * food           17.12.2013  5,49    15,49
      */
-    QString currentDate = QDate::currentDate().toString("dd.MM.yyyy");
-
-    q.addBindValue(currentDate);    // <date>
+    q.addBindValue(date.toString("dd.MM.yyyy"));    // <date>
     q.addBindValue(description); //<description>
     q.addBindValue(price);  // <price>
     q.addBindValue(total);  // <total>
