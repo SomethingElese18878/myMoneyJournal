@@ -26,23 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         return;
     }
 
-    //userModel
-    userModel = new QSqlQueryModel();
-    userModel->setQuery("SELECT name FROM accounts");
+    this->updateUsers();
 
-    for (int i = 0; i < userModel->rowCount(); ++i) {
-          QLabel *lbl = new QLabel("0,00");
-          QString name = userModel->record(i).value("name").toString();
-          QRadioButton *newRadioBtnAccount = new QRadioButton(this);
-          btnGroup_user->addButton(newRadioBtnAccount);
-          newRadioBtnAccount->setText(name);
-          if(i < 1) newRadioBtnAccount->setChecked(true);   //Check first element
-          newRadioBtnAccount->show();
-          int userRow = ui->gLay_userSwitch->rowCount();
-          ui->gLay_userSwitch->addWidget(newRadioBtnAccount, userRow, 0, 1, 1);
-          ui->gLay_userSwitch->addWidget(lbl, userRow, 1, 1, 1);
-          qDebug() << name;
-      }
 
 
     // Create the data model
@@ -71,6 +56,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateUsers(int i)
+{
+    /*
+     * Default: int i = 0 ==> allUsers will be added.
+     * If is set to: ui->gLay_userSwitch->rowCount() - 1
+     */
+    userModel = new QSqlQueryModel();
+    userModel->setQuery("SELECT name FROM accounts");
+
+    for (i; i < userModel->rowCount(); ++i) {
+          QLabel *lbl = new QLabel("0,00");
+          QString name = userModel->record(i).value("name").toString();
+          QRadioButton *newRadioBtnAccount = new QRadioButton(this);
+          btnGroup_user->addButton(newRadioBtnAccount);
+          newRadioBtnAccount->setText(name);
+          if(i < 1) newRadioBtnAccount->setChecked(true);   //Check first element
+          newRadioBtnAccount->show();
+          int userRow = ui->gLay_userSwitch->rowCount();
+          ui->gLay_userSwitch->addWidget(newRadioBtnAccount, userRow, 0, 1, 1);
+          ui->gLay_userSwitch->addWidget(lbl, userRow, 1, 1, 1);
+          qDebug() << name;
+      }
 }
 
 
@@ -105,6 +114,7 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     QString newAccountName = ui->lineEdit_accountName->text();
     this->database->insertAccount(newAccountName);
     this->database->createBookingTable(newAccountName);
+    this->updateUsers(ui->gLay_userSwitch->rowCount() - 1);
 
 }
 
