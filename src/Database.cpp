@@ -34,7 +34,6 @@ QSqlError Database::createBookingTable(QString newAccountName)
     this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
 
     std::cout << "cmdNuff: " << this->cmdCreateNewTable.toStdString() << std::endl;
-//    this->cmdStdString = "CREATE TABLE" + cmdNuff + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
     if (!q.exec(this->cmdCreateNewTable))
         return q.lastError();
    return q.lastError();

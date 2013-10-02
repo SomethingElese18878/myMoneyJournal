@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <iostream>
-#include <QDataWidgetMapper>
+
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -12,10 +11,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->lineEditDescription->setFocus();
     //set dateEdit to currentDate
     ui->dateEdit->setDate(QDate::currentDate());
+
     //sidebar
-    ui->rbtn_allAccounts->setChecked(true);
+//    ui->rbtn_allAccounts->setChecked(true);
     this->btnGroup_user = new QButtonGroup();
-    this->btnGroup_user->addButton(ui->rbtn_allAccounts);
+//    this->btnGroup_user->addButton(ui->rbtn_allAccounts);
 
     //Implement database-model
     this->database = new Database();
@@ -25,6 +25,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //        showError(err);
         return;
     }
+
+    //userModel
+    userModel = new QSqlQueryModel();
+    userModel->setQuery("SELECT name FROM accounts");
+
+    int userRow = ui->gLay_userSwitch->rowCount();
+    qDebug() << userRow;
+
+    for (int i = 0; i < userModel->rowCount(); ++i) {
+          QString name = userModel->record(i).value("name").toString();
+          QRadioButton *newRadioBtnAccount = new QRadioButton(this);
+          btnGroup_user->addButton(newRadioBtnAccount);
+          newRadioBtnAccount->setText(name);
+          if(i < 1) newRadioBtnAccount->setChecked(true);   //Check first element
+          newRadioBtnAccount->show();
+          int userRow = ui->gLay_userSwitch->rowCount();
+          qDebug() << userRow;
+          ui->gLay_userSwitch->addWidget(newRadioBtnAccount, userRow, 0, 1, 1);
+          qDebug() << name;
+      }
+
 
     // Create the data model
     model = new QSqlRelationalTableModel(ui->tableBooking);

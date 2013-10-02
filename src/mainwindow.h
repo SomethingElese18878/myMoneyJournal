@@ -6,9 +6,12 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStringList>
+#include <QRadioButton>
 #include <QButtonGroup>
-
+#include <QDataWidgetMapper>
 #include <QtSql>
+
+#include <iostream>
 
 
 namespace Ui {
@@ -35,6 +38,7 @@ private:
     Database *database;
 
     QSqlRelationalTableModel *model;
+    QSqlQueryModel *userModel;
     int priceIdx, descriptionIdx;
 };
 
