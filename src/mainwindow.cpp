@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->btnGroup_user->addButton(ui->rbtn_allAccounts);
 
     //Implement database-model
-    Database *database = new Database();
+    this->database = new Database();
     QSqlError err =  database->initDb();
 
     if (err.type() != QSqlError::NoError) {
@@ -79,29 +79,15 @@ QSqlError MainWindow::add2List()
     return q.lastError();
 }
 
-
 void MainWindow::on_lineEdit_accountName_returnPressed()
 {
     /*
     * LINE EDIT for add accounts
     */
-    //Add newUser-radiobutton
-    QString new_account_name = ui->lineEdit_accountName->text();
+    QString newAccountName = ui->lineEdit_accountName->text();
+    this->database->insertAccount(newAccountName);
+    this->database->createBookingTable(newAccountName);
 
-    QRadioButton *newRadioButtonAcc = new QRadioButton(this);
-    btnGroup_user->addButton(newRadioButtonAcc);
-    newRadioButtonAcc->setText(new_account_name);
-    newRadioButtonAcc->setChecked(true);
-    newRadioButtonAcc->show();
-    int userRow = ui->gLay_userSwitch->rowCount();
-    ui->gLay_userSwitch->addWidget(newRadioButtonAcc, userRow, 0, 1, 1);
-
-    //add newLabel for total account TODO: GROUP RADIOBUTTONS
-    QLabel *newLabel = new QLabel(this);
-    newLabel->setText("0,00");
-    ui->gLay_userSwitch->addWidget(newLabel, userRow, 1, 1, 1);
-
-    ui->lineEdit_accountName->setText(NULL);
 }
 
 void MainWindow::on_lineEditDescription_returnPressed()

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>myMoneyJournal</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -129,6 +129,12 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMyMoneyJournal">
+    <property name="title">
+     <string>myMoneyJournal</string>
+    </property>
+   </widget>
+   <addaction name="menuMyMoneyJournal"/>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

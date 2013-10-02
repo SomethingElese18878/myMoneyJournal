@@ -2,7 +2,8 @@
 
 Database::Database()
 {
-
+    this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)");
+    this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
 }
 
 
@@ -25,6 +26,29 @@ void Database::addBooking(QSqlQuery &q, const QDate &date, const QString &descri
     q.addBindValue(total);  // <total>
     q.exec();
 }
+
+QSqlError Database::createBookingTable(QString newAccountName)
+{
+    QSqlQuery q;
+    tablenameBooking = newAccountName + QString("_booking");
+    this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
+
+    std::cout << "cmdNuff: " << this->cmdCreateNewTable.toStdString() << std::endl;
+//    this->cmdStdString = "CREATE TABLE" + cmdNuff + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
+    if (!q.exec(this->cmdCreateNewTable))
+        return q.lastError();
+   return q.lastError();
+}
+
+QSqlError Database::insertAccount(const QString &accountName)
+{
+    QSqlQuery q;
+    if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
+        return q.lastError();
+    this->addAccount(q, accountName);
+    return q.lastError();
+}
+
 
 float Database::getTotal()
 {
@@ -60,15 +84,15 @@ QSqlError Database::initDb()
         //Create tables ACCOUNTS & BOOKING, if no database exists.
         //Creates default ACCOUNT "All accounts".
         QSqlQuery q;
-        if (!q.exec(QLatin1String("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)"))) //total for lbl?
+        if (!q.exec(this->cmdCreateTableAccounts)) //total for lbl?
             return q.lastError();
-        if (!q.exec(QLatin1String("CREATE TABLE booking(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)")))
+        if (!q.exec(this->cmdCreateTableBooking))
             return q.lastError();
 
         // Example: Insert datas into table ACCOUNTS
             if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
                 return q.lastError();
-            addAccount(q, QLatin1String("All accounts"));
+            this->addAccount(q, QLatin1String("All accounts"));
     }
     return QSqlError();
 }
