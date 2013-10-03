@@ -46,10 +46,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
     // ColumnHeaders set to FIXED size, except for the "description" which is STRETCHED.
     ui->tableBooking->resizeColumnsToContents();
-    ui->tableBooking->horizontalHeader()->setResizeMode(1, QHeaderView::Fixed);
-    ui->tableBooking->horizontalHeader()->setResizeMode(2, QHeaderView::Stretch);
-    ui->tableBooking->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
-    ui->tableBooking->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->tableBooking->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+    ui->tableBooking->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
 }
 
 
