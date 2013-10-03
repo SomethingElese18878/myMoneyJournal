@@ -14,7 +14,7 @@ public:
     Database();
 
     QSqlError initDb();
-    void addAccount(QSqlQuery &q, const QString &name);
+    void addAccount(QSqlQuery &q, const QString &name, const float &accBalance = 0.0f);
     void addBooking(QSqlQuery &q, const QDate& date,  const QString &description, const float &price, const float &total);
     QSqlError createBookingTable(QString newAccountName);
     QSqlError insertAccount(const QString &accountName);
@@ -26,6 +26,7 @@ private:
     QString cmdCreateTableAccounts;
     QString cmdCreateTableBooking;
     QString cmdCreateNewTable;
+    QString cmdInsertIntoAccounts;
     QString tablenameBooking;
 };
 

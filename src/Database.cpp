@@ -2,14 +2,17 @@
 
 Database::Database()
 {
-    this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)");
+    this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR, accBalance REAL)");
     this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
+
+    this->cmdInsertIntoAccounts = "insert into accounts(name, accBalance) values(?,?)";
 }
 
 
-void Database::addAccount(QSqlQuery &q, const QString &name)
+void Database::addAccount(QSqlQuery &q, const QString &name, const float &accBalance)
 {
     q.addBindValue(name);
+    q.addBindValue(accBalance);
     q.exec();
 }
 
@@ -42,7 +45,7 @@ QSqlError Database::createBookingTable(QString newAccountName)
 QSqlError Database::insertAccount(const QString &accountName)
 {
     QSqlQuery q;
-    if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
+    if (!q.prepare(this->cmdInsertIntoAccounts))
         return q.lastError();
     this->addAccount(q, accountName);
     return q.lastError();
@@ -89,7 +92,7 @@ QSqlError Database::initDb()
             return q.lastError();
 
         // Example: Insert datas into table ACCOUNTS
-            if (!q.prepare(QLatin1String("insert into accounts(name) values(?)")))
+            if (!q.prepare(this->cmdInsertIntoAccounts))
                 return q.lastError();
             this->addAccount(q, QLatin1String("All accounts"));
     }
