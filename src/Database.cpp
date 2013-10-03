@@ -3,7 +3,7 @@
 Database::Database()
 {
     this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR)");
-    this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
+    this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 }
 
 

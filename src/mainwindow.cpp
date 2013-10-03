@@ -7,15 +7,8 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //addBar
-    ui->lineEditDescription->setFocus();
-    //set dateEdit to currentDate
-    ui->dateEdit->setDate(QDate::currentDate());
 
-    //sidebar
-//    ui->rbtn_allAccounts->setChecked(true);
     this->btnGroup_user = new QButtonGroup();
-//    this->btnGroup_user->addButton(ui->rbtn_allAccounts);
 
     //Implement database-model
     this->database = new Database();
@@ -26,18 +19,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         return;
     }
 
-    this->updateUsers();
+    //addBooking
+    ui->lineEditDescription->setFocus();
+    ui->dateEdit->setDate(QDate::currentDate());
 
-
+    //Sidebar
+    this->updateUsers(); // default value i = 0 will add allUsers
 
     // Create the data model
     model = new QSqlRelationalTableModel(ui->tableBooking);
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
     model->setTable("booking");
-    model->setHeaderData(model->fieldIndex("date"), Qt::Horizontal, tr("Date"));
-    model->setHeaderData(model->fieldIndex("description"), Qt::Horizontal, tr("Description"));
-    model->setHeaderData(model->fieldIndex("price"), Qt::Horizontal, tr("Price"));
-    model->setHeaderData(model->fieldIndex("total"), Qt::Horizontal, tr("Total"));
+    model->setHeaderData(model->fieldIndex("Date"), Qt::Horizontal, tr("Date"));
+    model->setHeaderData(model->fieldIndex("Description"), Qt::Horizontal, tr("Description"));
+    model->setHeaderData(model->fieldIndex("Price"), Qt::Horizontal, tr("Price"));
+    model->setHeaderData(model->fieldIndex("Total"), Qt::Horizontal, tr("Total"));
 
     // Populate the model
     model->select();
