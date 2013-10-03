@@ -61,11 +61,12 @@ void MainWindow::updateUsers(int i)
      * If is set to: ui->gLay_userSwitch->rowCount() - 1
      */
     userModel = new QSqlQueryModel();
-    userModel->setQuery("SELECT name FROM accounts");
+    userModel->setQuery("SELECT name, accBalance FROM accounts");
 
     for (i; i < userModel->rowCount(); ++i) {
-          QLabel *lbl = new QLabel("0,00");
           QString name = userModel->record(i).value("name").toString();
+          QString accBalance = userModel->record(i).value("accBalance").toString();
+          QLabel *lbl = new QLabel(accBalance);
           QRadioButton *newRadioBtnAccount = new QRadioButton(this);
           btnGroup_user->addButton(newRadioBtnAccount);
           newRadioBtnAccount->setText(name);
@@ -74,7 +75,7 @@ void MainWindow::updateUsers(int i)
           int userRow = ui->gLay_userSwitch->rowCount();
           ui->gLay_userSwitch->addWidget(newRadioBtnAccount, userRow, 0, 1, 1);
           ui->gLay_userSwitch->addWidget(lbl, userRow, 1, 1, 1);
-          qDebug() << name;
+          qDebug() << name << accBalance;
       }
 }
 
