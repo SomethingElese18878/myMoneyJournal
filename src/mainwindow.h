@@ -28,7 +28,7 @@ public:
     ~MainWindow();
     
 private slots:
-    QSqlError add2List();
+    void add2List();
     void on_lineEdit_accountName_returnPressed();
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();

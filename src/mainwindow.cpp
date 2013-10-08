@@ -80,7 +80,7 @@ void MainWindow::updateUsers(int i)
 }
 
 
-QSqlError MainWindow::add2List()
+void MainWindow::add2List()
 {
     /*
     * add new Booking to database and ui->tableBooking;
@@ -88,19 +88,13 @@ QSqlError MainWindow::add2List()
     float total = database->getTotal();
     total += ui->lineEditPrice->text().toFloat();
     std::cout << "--- add2List ---" << std::endl;
-    QSqlQuery q;
-    if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
-        return q.lastError();
-    }
-    database->addBooking(q, ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
+
+    database->addBooking(ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
     model->setTable("booking");
     model->select();
     ui->tableBooking->setModel(model);
     ui->tableBooking->resizeColumnsToContents(); //prevents that data will not shown correctly, if they got more digits as the field can show.
-    if(!model->submitAll()) return q.lastError(); //use not necessary, but in thought on future-bugs implemented
-
-    return q.lastError();
 }
 
 void MainWindow::on_lineEdit_accountName_returnPressed()

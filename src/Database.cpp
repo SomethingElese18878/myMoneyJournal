@@ -16,18 +16,23 @@ void Database::addAccount(QSqlQuery &q, const QString &name, const float &accBal
     q.exec();
 }
 
-void Database::addBooking(QSqlQuery &q, const QDate &date, const QString &description, const float &price, const float &total)
+QSqlError Database::addBooking(const QDate &date, const QString &description, const float &price, const float &total)
 {
     /*
      * Format of booking:
      * <description>   <date>     <price> <total>
      * food           17.12.2013  5,49    15,49
      */
+    QSqlQuery q;
+    if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
+        return q.lastError();
+    }
     q.addBindValue(date.toString("dd.MM.yyyy"));    // <date>
     q.addBindValue(description); //<description>
     q.addBindValue(price);  // <price>
     q.addBindValue(total);  // <total>
     q.exec();
+    return q.lastError();
 }
 
 QSqlError Database::createBookingTable(QString newAccountName)
