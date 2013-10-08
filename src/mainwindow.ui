@@ -111,16 +111,20 @@
      <x>0</x>
      <y>0</y>
      <width>731</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMyMoneyJournal">
-    <property name="title">
-     <string>myMoneyJournal</string>
-    </property>
-   </widget>
-   <addaction name="menuMyMoneyJournal"/>
   </widget>
+  <action name="actionBla">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionNa">
+   <property name="text">
+    <string>na</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
