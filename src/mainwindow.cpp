@@ -88,6 +88,8 @@ void MainWindow::add2List()
     float total = database->getTotal();
     total += ui->lineEditPrice->text().toFloat();
 
+    qDebug() << "LastTotal: " << total;
+
     QString activeBtn = btnGroup_user->checkedButton()->text();
     database->addBooking(activeBtn, ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
@@ -121,8 +123,10 @@ void MainWindow::on_lineEditPrice_returnPressed()
 
 void MainWindow::userChanged(int id)
 {
-    qDebug() << btnGroup_user->checkedButton()->text();
-    model->setTable(btnGroup_user->checkedButton()->text());
+    QString activeUser = btnGroup_user->checkedButton()->text();
+    model->setTable(activeUser);
     model->select();
     ui->tableBooking->resizeColumnsToContents();
+
+    this->database->setActiveUser(activeUser);
 }

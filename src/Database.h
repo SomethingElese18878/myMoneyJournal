@@ -19,9 +19,12 @@ public:
     QSqlError createBookingTable(QString newAccountName);
     QSqlError insertAccount(const QString &accountName);
     float getTotal();
+    void setActiveUser(const QString &activeUser);
 
 private:
     float total;
+
+    QString activeUser;
 
     QString cmdCreateTableAccounts;
     QString cmdCreateTableBooking;

@@ -2,6 +2,8 @@
 
 Database::Database()
 {
+    this->activeUser = "All";
+
     this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR, accBalance REAL)");
     this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 
@@ -57,10 +59,17 @@ QSqlError Database::insertAccount(const QString &accountName)
     return q.lastError();
 }
 
+void Database::setActiveUser(const QString &activeUser)
+{
+    this->activeUser = activeUser;
+    qDebug() << "setActiveUser: " << this->activeUser;
+}
 
 float Database::getTotal()
 {
-    QSqlQuery query("SELECT total FROM booking WHERE id = (SELECT MAX(ID) FROM booking)");
+    QString cmdGetTotal = QString("SELECT total FROM ") + activeUser + QString(" WHERE id = (SELECT MAX(ID) FROM ") + activeUser + QString(")");
+    qDebug() << cmdGetTotal;
+    QSqlQuery query(cmdGetTotal);
     if (!query.first()) return 0.0f;
     return query.value(0).toFloat();
 }
