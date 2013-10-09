@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     this->btnGroup_user = new QButtonGroup();
-
+    QObject::connect(btnGroup_user, SIGNAL(buttonClicked(int)), this, SLOT(userChanged(int)));
     //Implement database-model
     this->database = new Database();
     QSqlError err =  database->initDb();
@@ -87,11 +87,11 @@ void MainWindow::add2List()
     */
     float total = database->getTotal();
     total += ui->lineEditPrice->text().toFloat();
-    std::cout << "--- add2List ---" << std::endl;
 
-    database->addBooking(ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
+    QString activeBtn = btnGroup_user->checkedButton()->text();
+    database->addBooking(activeBtn, ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
 
-    model->setTable("booking");
+    model->setTable(activeBtn);
     model->select();
     ui->tableBooking->setModel(model);
     ui->tableBooking->resizeColumnsToContents(); //prevents that data will not shown correctly, if they got more digits as the field can show.
@@ -119,4 +119,10 @@ void MainWindow::on_lineEditPrice_returnPressed()
     this->add2List();
 }
 
-
+void MainWindow::userChanged(int id)
+{
+    qDebug() << btnGroup_user->checkedButton()->text();
+    model->setTable(btnGroup_user->checkedButton()->text());
+    model->select();
+    ui->tableBooking->resizeColumnsToContents();
+}

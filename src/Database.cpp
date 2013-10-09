@@ -16,15 +16,16 @@ void Database::addAccount(QSqlQuery &q, const QString &name, const float &accBal
     q.exec();
 }
 
-QSqlError Database::addBooking(const QDate &date, const QString &description, const float &price, const float &total)
+QSqlError Database::addBooking(const QString &activeBtn, const QDate &date, const QString &description, const float &price, const float &total)
 {
     /*
      * Format of booking:
      * <description>   <date>     <price> <total>
      * food           17.12.2013  5,49    15,49
      */
+    QString cmdInsertActiveAccount = QString("insert into ") + activeBtn + QString("(date, description, price, total) values(?, ?, ?, ?)");
     QSqlQuery q;
-    if (!q.prepare(QLatin1String("insert into booking(date, description, price, total) values(?, ?, ?, ?)"))){
+    if (!q.prepare(cmdInsertActiveAccount)){
         return q.lastError();
     }
     q.addBindValue(date.toString("dd.MM.yyyy"));    // <date>
@@ -38,7 +39,7 @@ QSqlError Database::addBooking(const QDate &date, const QString &description, co
 QSqlError Database::createBookingTable(QString newAccountName)
 {
     QSqlQuery q;
-    tablenameBooking = newAccountName + QString("_booking");
+    tablenameBooking = newAccountName;
     this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
 
     std::cout << "cmdNuff: " << this->cmdCreateNewTable.toStdString() << std::endl;

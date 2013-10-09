@@ -32,6 +32,7 @@ private slots:
     void on_lineEdit_accountName_returnPressed();
     void on_lineEditDescription_returnPressed();
     void on_lineEditPrice_returnPressed();
+    void userChanged(int id);
 
 private:
     Ui::MainWindow *ui;
