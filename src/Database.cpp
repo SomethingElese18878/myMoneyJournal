@@ -2,10 +2,10 @@
 
 Database::Database()
 {
-    this->activeUser = "All";
+    this->activeUser = "All_Accounts";
 
     this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR, accBalance REAL)");
-    this->cmdCreateTableBooking = QString("CREATE TABLE booking(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
+    this->cmdCreateTableBooking = QString("CREATE TABLE ") + this->activeUser + QString("(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 
     this->cmdInsertIntoAccounts = "insert into accounts(name, accBalance) values(?,?)";
 }
@@ -68,7 +68,6 @@ void Database::setActiveUser(const QString &activeUser)
 float Database::getTotal()
 {
     QString cmdGetTotal = QString("SELECT total FROM ") + activeUser + QString(" WHERE id = (SELECT MAX(ID) FROM ") + activeUser + QString(")");
-    qDebug() << cmdGetTotal;
     QSqlQuery query(cmdGetTotal);
     if (!query.first()) return 0.0f;
     return query.value(0).toFloat();
@@ -94,12 +93,11 @@ QSqlError Database::initDb()
     if (db_exist){
         // parses existing tables into model.
         QStringList tables = db.tables();
-        if (tables.contains("booking", Qt::CaseInsensitive) && tables.contains("accounts", Qt::CaseInsensitive))
+        if (tables.contains(activeUser, Qt::CaseInsensitive) && tables.contains("accounts", Qt::CaseInsensitive))
             std::cout << "TABLES CONTAINS!!!!" << std::endl;
             return QSqlError();
     } else{
         //Create tables ACCOUNTS & BOOKING, if no database exists.
-        //Creates default ACCOUNT "All accounts".
         QSqlQuery q;
         if (!q.exec(this->cmdCreateTableAccounts)) //total for lbl?
             return q.lastError();
@@ -109,7 +107,7 @@ QSqlError Database::initDb()
         // Example: Insert datas into table ACCOUNTS
             if (!q.prepare(this->cmdInsertIntoAccounts))
                 return q.lastError();
-            this->addAccount(q, QLatin1String("All accounts"));
+            this->addAccount(q, activeUser);
     }
     return QSqlError();
 }

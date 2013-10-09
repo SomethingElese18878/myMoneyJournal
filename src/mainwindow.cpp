@@ -12,13 +12,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QObject::connect(btnGroup_user, SIGNAL(buttonClicked(int)), this, SLOT(userChanged(int)));
     //Implement database-model
     this->database = new Database();
-    QSqlError err =  database->initDb();
-
-    if (err.type() != QSqlError::NoError) {
-//        showError(err);
-        return;
-    }
-
+    database->initDb();
+    qDebug() << "afterInit";
     //addBooking
     ui->lineEditDescription->setFocus();
     ui->dateEdit->setDate(QDate::currentDate());
@@ -29,14 +24,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Create the data model
     model = new QSqlRelationalTableModel(ui->tableBooking);
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
-    model->setTable("booking");
+    model->setTable("All_Accounts");
     model->setHeaderData(model->fieldIndex("Date"), Qt::Horizontal, tr("Date"));
     model->setHeaderData(model->fieldIndex("Description"), Qt::Horizontal, tr("Description"));
     model->setHeaderData(model->fieldIndex("Price"), Qt::Horizontal, tr("Price"));
     model->setHeaderData(model->fieldIndex("Total"), Qt::Horizontal, tr("Total"));
 
     // Populate the model
-    model->select();
+//    model->select();
     ui->tableBooking->setModel(model);
     ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -69,6 +64,7 @@ void MainWindow::updateUsers(int i)
           QLabel *lbl = new QLabel(accBalance);
           QRadioButton *newRadioBtnAccount = new QRadioButton(this);
           btnGroup_user->addButton(newRadioBtnAccount);
+          btnGroup_user->setId(newRadioBtnAccount, ui->gLay_userSwitch->rowCount());
           newRadioBtnAccount->setText(name);
           if(i < 1) newRadioBtnAccount->setChecked(true);   //Check first element
           newRadioBtnAccount->show();
@@ -99,6 +95,7 @@ void MainWindow::add2List()
     ui->tableBooking->resizeColumnsToContents(); //prevents that data will not shown correctly, if they got more digits as the field can show.
 }
 
+
 void MainWindow::on_lineEdit_accountName_returnPressed()
 {
     /*
@@ -108,7 +105,8 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     this->database->insertAccount(newAccountName);
     this->database->createBookingTable(newAccountName);
     this->updateUsers(ui->gLay_userSwitch->rowCount() - 1);
-
+//    btnGroup_user->c
+    ui->lineEdit_accountName->setText("");
 }
 
 void MainWindow::on_lineEditDescription_returnPressed()
