@@ -70,6 +70,9 @@ void MainWindow::updateUsers(bool addUserFlag)
           QLabel *lbl = new QLabel(accBalance);
           QRadioButton *newRadioBtnAccount = new QRadioButton(this);
 
+          this->listUserBtn.append(newRadioBtnAccount);
+          this->listUserLbl.append(lbl);
+
           btnGroup_user->addButton(newRadioBtnAccount);
           btnGroup_user->setId(newRadioBtnAccount, ui->gLay_userSwitch->rowCount());
           newRadioBtnAccount->setText(name);
@@ -97,6 +100,13 @@ void MainWindow::add2List()
 
     QString activeBtn = btnGroup_user->checkedButton()->text();
     database->addBooking(activeBtn, ui->dateEdit->date(), ui->lineEditDescription->text(), ui->lineEditPrice->text().toFloat(), total);
+    //Search for position of activeUser and set the related label to the totalAmount of the account.
+    for(int i = 0; i < listUserBtn.size(); i++){
+        if(listUserBtn[i]->text() == activeBtn){
+            listUserLbl[i]->setText(QString::number(total));
+            break;
+        }
+    }
 
     model->setTable(activeBtn);
     model->select();
@@ -114,8 +124,7 @@ void MainWindow::on_lineEdit_accountName_returnPressed()
     this->database->insertAccount(newAccountName);
     this->database->createBookingTable(newAccountName);
     this->updateUsers(true);
-    userChanged(0);
-//    btnGroup_user->checkedButton();
+    this->userChanged(0);
     ui->lineEdit_accountName->setText("");
 }
 

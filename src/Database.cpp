@@ -47,7 +47,7 @@ void Database::updateGeneric2Tables(QString tblName, QString colName, QString va
      *cmdUpdate
      *  UPDATE <accounts>
      *  SET <accBalance> = <200>
-     *  WHERE name = <"golem">;
+     *  WHERE <name> = <"peter">;
      */
     QString cmdUpdate = "update " + tblName
             + " SET " + colName + " = " + valName

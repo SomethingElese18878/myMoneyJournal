@@ -41,6 +41,9 @@ private:
 
     QSqlRelationalTableModel *model;
     QSqlQueryModel *userModel;
+    QList<QRadioButton*> listUserBtn;
+    QList<QLabel*> listUserLbl;
+
 };
 
 #endif // MAINWINDOW_H
