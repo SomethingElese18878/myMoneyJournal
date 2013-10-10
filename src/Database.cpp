@@ -42,7 +42,7 @@ QSqlError Database::createBookingTable(QString newAccountName)
 {
     QSqlQuery q;
     tablenameBooking = newAccountName;
-    this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(id INTEGER primary key, date TEXT, description VARCHAR,  price REAL, total REAL)");
+    this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(Id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 
     std::cout << "cmdNuff: " << this->cmdCreateNewTable.toStdString() << std::endl;
     if (!q.exec(this->cmdCreateNewTable))
