@@ -3,13 +3,59 @@
 Database::Database()
 {
     this->activeUser = "All_Accounts";
+    this->tblAccounts = "accounts";
 
     this->cmdCreateTableAccounts = QString("CREATE TABLE accounts(id INTEGER primary key, name VARCHAR, accBalance REAL)");
     this->cmdCreateTableBooking = QString("CREATE TABLE ") + this->activeUser + QString("(id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 
-    this->cmdInsertIntoAccounts = "insert into accounts(name, accBalance) values(?,?)";
+    this->cmdInsertIntoAccounts = "insert into " + QString(tblAccounts) + "(name, accBalance) values(?,?)";
 }
 
+
+void Database::insertGeneric2Tables(QString tblName, QList<QString> listCol, QList<QString> listVal)
+{
+    /* UNDER CONSTRUCTION - replaces addBooking, addAccounts?
+     * @tblName: table in which you want to insert
+     * @listCol: columns which have to be inserted
+     * @listVal: values which have to be inserted to the selected columns
+     */
+    QString cmdCol = QString("(");
+    QString cmdVal = QString("values(");
+
+    for(int i = 0; i < listCol.size(); i++){
+        qDebug() << i << listCol[i];
+        cmdCol.append(listCol[i] + ", ");
+        cmdVal.append("?, ");
+    }
+    //replace last ',' with ')'
+    cmdCol.replace(cmdCol.lastIndexOf(", "), 1, ")");
+    cmdVal.replace(cmdVal.lastIndexOf(", "), 1, ")");
+
+    QString cmdInsert = "insert into " + tblName + cmdCol + cmdVal;
+    qDebug() << "cmdInsert: " << cmdInsert;
+
+//    QSqlQuery q;
+}
+
+void Database::updateGeneric2Tables(QString tblName, QString colName, QString valName, QString rowParam)
+{
+    /*
+     *@tblName: table in which you want to update
+     *@nameCol: columns which have to be inserted
+     *@listVal: values which have to be inserted to the selected columns
+     *
+     *cmdUpdate
+     *  UPDATE <accounts>
+     *  SET <accBalance> = <200>
+     *  WHERE name = <"golem">;
+     */
+    QString cmdUpdate = "update " + tblName
+            + " SET " + colName + " = " + valName
+            + " WHERE " + rowParam + " = " + "\"" + this->activeUser + "\"";
+    qDebug() << "cmdInsert: " << cmdUpdate;
+    QSqlQuery q(cmdUpdate);
+    q.exec();
+}
 
 void Database::addAccount(QSqlQuery &q, const QString &name, const float &accBalance)
 {
@@ -35,6 +81,8 @@ QSqlError Database::addBooking(const QString &activeBtn, const QDate &date, cons
     q.addBindValue(price);  // <price>
     q.addBindValue(total);  // <total>
     q.exec();
+
+    this->updateGeneric2Tables(tblAccounts, "accBalance", QString::number(total), "name");
     return q.lastError();
 }
 
@@ -44,7 +92,7 @@ QSqlError Database::createBookingTable(QString newAccountName)
     tablenameBooking = newAccountName;
     this->cmdCreateNewTable = QString("CREATE TABLE ") + tablenameBooking + QString("(Id INTEGER primary key, Date TEXT, Description VARCHAR,  Price REAL, Total REAL)");
 
-    std::cout << "cmdNuff: " << this->cmdCreateNewTable.toStdString() << std::endl;
+    qDebug() << "CreateTable: " << cmdCreateNewTable;
     if (!q.exec(this->cmdCreateNewTable))
         return q.lastError();
    return q.lastError();
