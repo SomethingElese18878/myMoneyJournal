@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void updateUsers(int i = 0);
+    void updateUsers(bool addUserFlag);
     ~MainWindow();
     
 private slots:
