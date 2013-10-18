@@ -31,10 +31,37 @@ void Database::insertGeneric2Tables(QString tblName, QList<QString> listCol, QLi
     cmdCol.replace(cmdCol.lastIndexOf(", "), 1, ")");
     cmdVal.replace(cmdVal.lastIndexOf(", "), 1, ")");
 
-    QString cmdInsert = "insert into " + tblName + cmdCol + cmdVal;
+    QString cmdInsert = "insert into " + tblName
+            + cmdCol + cmdVal;
     qDebug() << "cmdInsert: " << cmdInsert;
 
 //    QSqlQuery q;
+}
+
+void Database::selectGenericFromTables(){
+    /*
+     *TODO:
+     *SELECT <Date>
+     *FROM <norman>
+     *WHERE <id> = (SELECT MAX(<ID>)  FROM <norman>);
+     */
+    QString cmdSelect = "SELECT";
+}
+
+void Database::sortTable(const QString &colName, const QString &table){
+    /*
+     *If an booking has another date as QDate::currentDate() this function will triggered.
+     *
+     *SELECT <DATE> //column
+     *FROM <norman> //table
+     *GROUP BY <DATE>; //column
+     */
+    QString cmdSortDate;
+
+    cmdSortDate = "SELECT ";
+
+    qDebug() << cmdSortDate;
+
 }
 
 void Database::updateGeneric2Tables(QString tblName, QString colName, QString valName, QString rowParam)

@@ -31,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     model->setHeaderData(model->fieldIndex("Total"), Qt::Horizontal, tr("Total"));
 
     // Populate the model
-//    model->select();
     ui->tableBooking->setModel(model);
     ui->tableBooking->setColumnHidden(model->fieldIndex("id"), true);
     ui->tableBooking->setSelectionMode(QAbstractItemView::SingleSelection);
