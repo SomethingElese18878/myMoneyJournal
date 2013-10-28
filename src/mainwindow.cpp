@@ -51,8 +51,8 @@ MainWindow::~MainWindow()
 void MainWindow::updateUsers(bool addUserFlag)
 {
     /*
-     * i = 0 (default!) ==> allUsers will be added.
-     * i = rowCount() - 1 it adds only the last.
+     * true: i = 0 (default!) ==> allUsers will be added.
+     * false: i = rowCount() - 1 it adds only the last.
      */
     int i;
     if(addUserFlag){
@@ -148,4 +148,10 @@ void MainWindow::userChanged(int id)
     ui->tableBooking->resizeColumnsToContents();
 
     this->database->setActiveUser(activeUser);
+    if( activeUser == "All_Accounts"){
+        qDebug() << "All_Accounts show all bookings";
+        model->setTable(QString("norman"));
+        model->select();
+
+    }
 }
