@@ -102,7 +102,10 @@ void MainWindow::add2List()
     //Search for position of activeUser and set the related label to the totalAmount of the account.
     for(int i = 0; i < listUserBtn.size(); i++){
         if(listUserBtn[i]->text() == activeBtn){
-            listUserLbl[i]->setText(QString::number(total));
+	    if(total<0)
+               listUserLbl[i]->setText("<font color='red'>"+QString::number(total)+"</font>");
+	    else
+	       listUserLbl[i]->setText(QString::number(total));
             break;
         }
     }
